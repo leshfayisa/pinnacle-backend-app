@@ -1,0 +1,61 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment variables
+.env
+*.env
+
+# Virtual environment folders
+venv/
+ENV/
+env/
+
+# Flask-specific files
+instance/
+*.sqlite3
+*.db
+
+# Log files
+*.log
+
+# Compiled files and caches
+*.egg-info/
+.eggs/
+*.so
+*.out
+*.o
+*.pyc
+
+# Editor or IDE files
+.vscode/
+.idea/
+*.swp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Testing files
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.pytest_cache/
+
+# Build files
+build/
+dist/
+*.egg
+*.wheel
+
+# Static and media files (if generated dynamically)
+staticfiles/
+media/
+
+# Flask-Migrate files
+migrations/
+
+
