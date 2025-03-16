@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, current_app
+from flask import Flask, jsonify, request, current_app, send_from_directory
 import jwt
 import pymysql
 from db_config import app, get_db_connection
@@ -8,9 +8,6 @@ from functools import wraps
 from authentication.token_generator import generate_token, token_required
 from authentication.hash_password import verify_password, hash_password_with_salt
 
-@app.route("/")
-def home():
-    return "Welcome to Pinnacle App!"
 
 @app.route('/api/signin', methods=["POST"])
 def sign_in():
@@ -467,6 +464,11 @@ def get_online_users():
 
     finally:
         conn.close()
+
+@app.route('/video')
+def get_video():
+    return send_from_directory('static/videos', 'production_video.mp4', as_attachment=False)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

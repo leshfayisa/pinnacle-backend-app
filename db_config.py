@@ -11,7 +11,7 @@ CORS(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key')
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', '1234567890')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'replace with your mysql password')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'pinnacle_app')
 
 # Use PyMySQL instead of MySQLdb
