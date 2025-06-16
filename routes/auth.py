@@ -7,6 +7,19 @@ import pymysql
 
 @auth_bp.route('/signin', methods=["POST"])
 def sign_in():
+    """
+    Sign in a user using username and password.
+
+    Accepts a JSON payload with 'username' and 'password', validates the credentials,
+    and returns a JWT token on success.
+
+    Returns:
+        200 OK: Login successful, returns user ID, role, and JWT token.
+        400 Bad Request: Missing input data.
+        401 Unauthorized: Invalid username or password.
+        500 Internal Server Error: Database or internal error.
+    """
+
     data = request.get_json()
     if not data:
         return jsonify({'message': "Please provide username and password"}), 400
@@ -63,6 +76,19 @@ def sign_in():
 
 @auth_bp.route('/signup', methods=["POST"])
 def sign_up():
+    """
+    Register a new user.
+
+    Accepts a JSON payload with 'username', 'password', and optional 'role' (default: 'user').
+    Hashes the password and stores the new user in the database.
+
+    Returns:
+        201 Created: User registered successfully.
+        400 Bad Request: Missing required fields.
+        409 Conflict: User already exists.
+        500 Internal Server Error: Database or internal error.
+    """
+
     data = request.get_json()
     if not data:
         return jsonify({'message': "No input data provided"}), 400

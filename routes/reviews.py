@@ -7,6 +7,19 @@ import jwt
 
 @reviews_bp.route("/reviews", methods=["POST"])
 def add_review():
+    """
+    Submit a user review.
+
+    Accepts a JSON payload with 'name', 'review', and 'rating'.
+    Validates and stores the review with a default status of 'pending'.
+
+    Returns:
+        201 Created: Review submitted successfully.
+        400 Bad Request: Validation error.
+        409 Conflict: Duplicate entry.
+        500 Internal Server Error: Database or internal error.
+    """
+
     data = request.get_json()
     
     if not data:
@@ -64,6 +77,24 @@ def add_review():
 
 @reviews_bp.route("/reviews", methods=["GET"])
 def get_reviews():
+    """
+    Retrieve a paginated list of reviews.
+
+    - Admins see all reviews.
+    - Other users see only 'approved' reviews.
+    - Uses JWT if provided in Authorization header.
+
+    Query Params:
+        offset (int): Pagination offset (default: 0)
+        limit (int): Number of items per page (default: 5)
+
+    Returns:
+        200 OK: List of reviews.
+        403 Forbidden: Token error.
+        404 Not Found: No reviews.
+        500 Internal Server Error: Database or internal error.
+    """
+
     current_user_role = 'guest'
     token = request.headers.get('Authorization')
     if token:
@@ -119,6 +150,22 @@ def get_reviews():
 @reviews_bp.route('/reviews/<int:review_id>/status', methods=["PUT"])
 @token_required
 def update_review_status(current_user_id, review_id, current_user_role):
+    """
+    Update the status of a user review (admin only).
+
+    Requires admin role and a valid JWT token. Accepts a 'status' field in the JSON payload.
+
+    Args:
+        review_id (int): The ID of the review to update.
+
+    Returns:
+        200 OK: Status updated or already set.
+        400 Bad Request: Invalid input or status.
+        403 Forbidden: User is not an admin.
+        404 Not Found: Review not found.
+        500 Internal Server Error: Database or internal error.
+    """
+
     # Check if the user has admin privileges
     if current_user_role != 'admin':
         return jsonify({

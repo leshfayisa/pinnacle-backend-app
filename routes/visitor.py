@@ -6,6 +6,18 @@ from datetime import datetime
 
 @visitor_bp.route("/track-visitor", methods=["POST"])
 def track_visitor():
+    """
+    Track a unique visitor and update visitor statistics.
+
+    Accepts a JSON payload with 'visit_date' and optional 'user_agent'.
+    Logs the visitor and updates visitor stats if the visitor is new for the day.
+
+    Returns:
+        200 OK: Visitor tracked and stats updated.
+        400 Bad Request: Invalid input or date format.
+        500 Internal Server Error: Database or internal error.
+    """
+
     data = request.get_json()
 
     if not data:
@@ -87,6 +99,18 @@ def track_visitor():
 
 @visitor_bp.route("/track-online", methods=["POST"])
 def track_online():
+    """
+    Track online user activity via session ID.
+
+    Accepts a JSON payload with 'session_id'. Updates the last active time,
+    and cleans up sessions inactive for more than 10 minutes.
+
+    Returns:
+        200 OK: User tracked.
+        400 Bad Request: Invalid or missing session_id.
+        500 Internal Server Error: Database or internal error.
+    """
+
     data = request.get_json()
 
     if not data or "session_id" not in data:
@@ -125,4 +149,3 @@ def track_online():
 
     finally:
         conn.close()
-

@@ -5,6 +5,15 @@ import pymysql
 
 @stats_bp.route("/visitor-stats", methods=["GET"])
 def get_visitor_stats():
+    """
+    Retrieve the most recent visitor statistics.
+
+    Returns:
+        200 OK: Latest visitor stats.
+        404 Not Found: No stats found.
+        500 Internal Server Error: Database or internal error.
+    """
+
     conn = get_db_connection()
     if conn is None:
         return jsonify({'message': "Database connection error"}), 500
@@ -37,6 +46,14 @@ def get_visitor_stats():
 
 @stats_bp.route("/online-users", methods=["GET"])
 def get_online_users():
+    """
+    Get the number of currently online users.
+
+    Returns:
+        200 OK: Online user count.
+        500 Internal Server Error: Database or internal error.
+    """
+
     conn = get_db_connection()
     if conn is None:
         return jsonify({"message": "Database connection error"}), 500
