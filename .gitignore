@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *.pyo
-
+/static
 # Environment variables
 .env
 *.env
@@ -57,5 +57,3 @@ media/
 
 # Flask-Migrate files
 migrations/
-
-

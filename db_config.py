@@ -2,19 +2,21 @@ import os
 import pymysql
 from flask import Flask
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
 # Configure Flask with environment variables
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your_secret_key')
-app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
-app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'replace with your mysql password')
-app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'pinnacle_app')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 
-# Use PyMySQL instead of MySQLdb
+# Use PyMySQL
 pymysql.install_as_MySQLdb()
 
 # Database Connection Function

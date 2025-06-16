@@ -2,11 +2,11 @@ from flask import Flask, jsonify, request, current_app, send_from_directory
 import jwt
 import pymysql
 from db_config import app, get_db_connection
-from datetime import datetime, timedelta
-from functools import wraps
+from datetime import datetime
+
 
 from authentication.token_generator import generate_token, token_required
-from authentication.hash_password import verify_password, hash_password_with_salt
+from authentication.hash_password import verify_password, hash_password
 
 
 @app.route('/api/signin', methods=["POST"])
@@ -43,7 +43,7 @@ def sign_in():
             return jsonify({'message': "Invalid username or password"}), 401
 
         # Generate a token with expiration
-        token = generate_token(user_id, role, app.config['SECRET_KEY'])
+        token = generate_token(user_id, role, app.config['SECRET_KEY'], expires_in_hours=2)
 
         return jsonify({
             'message': "Logged in successfully",
@@ -79,7 +79,7 @@ def sign_up():
         return jsonify({'message': "Username and password are required"}), 400
 
     # Hash the password
-    hashed_password = hash_password_with_salt(password)
+    hashed_password = hash_password(password)
 
     conn = get_db_connection()
     if conn is None:

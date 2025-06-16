@@ -1,21 +1,19 @@
 import jwt
-import datetime
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from flask import request, jsonify, current_app
 
 
-def generate_token(user_id, role, secret_key):
-    """
-    Generate a JWT token with user ID and role.
-    """
+def generate_token(user_id, role, secret_key, expires_in_hours=2):
+    now = datetime.now(timezone.utc)
     payload = {
         'user_id': user_id,
         'role': role,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=100),  # Token expires in 100 hours
-        'iat': datetime.datetime.utcnow()  # Issued at
+        'exp': now + timedelta(hours=expires_in_hours),
+        'iat': now
     }
     token = jwt.encode(payload, secret_key, algorithm='HS256')
-    return token
+    return token if isinstance(token, str) else token.decode('utf-8')
 
 
 def token_required(f):
